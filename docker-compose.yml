@@ -1,0 +1,45 @@
+version: '3'
+services:
+  client:
+    build: 
+      context: client
+      dockerfile: Dockerfile
+    container_name: client
+    ports:
+      - "80:80"
+    networks:
+      - mon_reseau
+    depends_on:
+      - server
+
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=monmotdepasse
+      - MYSQL_DATABASE=db_book
+    container_name: mysqldb
+    ports:
+      - "3306:3306"
+    networks:
+      - mon_reseau
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+  server:
+    build: 
+      context: server
+      dockerfile: Dockerfile
+    container_name: server
+    ports:
+      - "8080:8080"
+    networks:
+      - mon_reseau
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+networks:
+  mon_reseau:

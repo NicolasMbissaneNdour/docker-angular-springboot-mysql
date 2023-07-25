@@ -1,0 +1,27 @@
+<h1 class="alert alert-primary text-center" role="alert">
+  My Books
+</h1>
+
+<div>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let book of books">{{ book.title }} </li>
+  </ul>
+</div>
+
+<div class="col-4 m-auto mt-5 p-4 card" >
+  <form [formGroup]="form" >
+    <h2 class="text-center mb-2">Add New Book</h2>
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Title</label>
+      <input type="text" class="form-control"  placeholder="Ex. Une vie de boy" formControlName="title">
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Author</label>
+      <input type="text" class="form-control"  placeholder="Ex. Nicolas Mbissane Ndour" formControlName="author">
+    </div>
+    <div class="m-auto text-center mt-2">
+      <button class="btn btn-success" (click)="onAdd()" [disabled]="form.invalid">Add</button>
+    </div>
+  </form>
+</div>
+
